@@ -1,28 +1,21 @@
 package appA;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import org.omg.CORBA.*;
-
-import appA.idl.AService;
 import appA.proxybean.AProxyBean;
 
-public class AClient {
-    public static void main(String[] args) {
-        try {
-            System.out.println("[AClient] ORB başlatılıyor...");
-            ORB orb = ORB.init(args, null);
+@Component
+public class AClient implements CommandLineRunner {
+    private final AProxyBean aProxyBean;
 
-            System.out.println("[AClient] AProxyBean oluşturuluyor...");
-            AProxyBean proxy = new AProxyBean(orb);
+    public AClient(AProxyBean aProxyBean) {
+        this.aProxyBean = aProxyBean;
+    }
 
-            System.out.println("[AClient] AServer referansı alınıyor...");
-            AService serverRefA = proxy.getServerReferance();
-
-            System.out.println("[AClient] processRequest çağrılıyor...");
-            String response = serverRefA.processRequest("Hello from AClient!");
-
-            System.out.println("[AClient] Yanıt alındı: " + response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void run(String... args) {
+        System.out.println("[AClient] AService.processRequest çağrılıyor...");
+        
+        aProxyBean.callMethod("processRequest", "Merhaba, B!");
     }
 }

@@ -40,6 +40,7 @@ public class _BServiceStub extends org.omg.CORBA.portable.ObjectImpl implements 
     return (String[])__ids.clone ();
   }
 
+  @SuppressWarnings("restriction")
   private void readObject (java.io.ObjectInputStream s) throws java.io.IOException
   {
      String str = s.readUTF ();

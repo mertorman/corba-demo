@@ -1,21 +1,21 @@
 package appB;
-
-import org.omg.CORBA.*;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 import appB.proxy.BProxyBean;
 
-public class BClient {
-    public static void main(String[] args) {
-        try {
-            System.out.println("[BClient] ORB başlatılıyor...");
-            ORB orb = ORB.init(args, null);
-            System.out.println("[BClient] BProxyBean oluşturuluyor...");
-            BProxyBean proxy = new BProxyBean(orb);
-            System.out.println("[BClient] getData çağrılıyor...");
-            String response = proxy.getData("Hello from BClient!");
-            System.out.println("Response from B: " + response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+@Component
+public class BClient implements CommandLineRunner {
+    private final BProxyBean proxy;
+
+    @Autowired
+    public BClient(BProxyBean proxy) {
+        this.proxy = proxy;
+    }
+
+    @Override
+    public void run(String... args) {
+        System.out.println("[BClient] BLogicBean'e istek gönderiliyor...");
+        proxy.callMethod("getData", "Merhaba, A!");
     }
 }

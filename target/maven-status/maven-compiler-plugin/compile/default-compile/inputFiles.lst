@@ -1,4 +1,6 @@
+/Users/morman/Desktop/corba-demo/corba-demo/src/main/java/Application.java
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appA/AClient.java
+/Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appA/event/AServiceEvent.java
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appA/idl/AService.java
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appA/idl/AServiceHelper.java
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appA/idl/AServiceHolder.java
@@ -9,6 +11,7 @@
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appA/proxybean/AProxyBean.java
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appA/server/AServer.java
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appB/BClient.java
+/Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appB/event/BServiceEvent.java
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appB/idl/BService.java
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appB/idl/BServiceHelper.java
 /Users/morman/Desktop/corba-demo/corba-demo/src/main/java/appB/idl/BServiceHolder.java

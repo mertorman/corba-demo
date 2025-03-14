@@ -1,3 +1,4 @@
+/* 
 package appB.server;
 
 import org.omg.CORBA.*;
@@ -36,3 +37,4 @@ public class BServer {
         }
     }
 }
+*/

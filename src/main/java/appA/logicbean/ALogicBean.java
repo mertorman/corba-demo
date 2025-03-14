@@ -1,25 +1,46 @@
 package appA.logicbean;
+import java.lang.reflect.Method;
 
-import appA.idl.AServicePOA;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Service;
+
+import appA.event.AServiceEvent;
+import appA.idl.AServiceOperations;
 import appB.proxy.BProxyBean;
 
-public class ALogicBean extends AServicePOA {
-    private BProxyBean bProxy;
 
-    public ALogicBean(BProxyBean bProxy) {
-        this.bProxy = bProxy;
-        System.out.println("[ALogicBean] ALogicBean oluşturuldu.");
+@Service
+public class ALogicBean implements AServiceOperations {
+    private final ApplicationEventPublisher eventPublisher;
+
+    @Autowired
+    public ALogicBean(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
     public String processRequest(String request) {
-        System.out.println("[ALogicBean] processRequest çağrıldı. Gelen istek: " + request);
+        System.out.println("[ALogicBean] processRequest çalıştırıldı: " + request);
+        
+        // BProxyBean'daki callMethod çağırarak event publish eder ve B'nin metodunu çalıştırır.
+        BProxyBean bProxyBean = new BProxyBean(eventPublisher);
+        bProxyBean.callMethod("getData", request);
 
-        System.out.println("[ALogicBean] B'ye istek gönderiliyor...");
-        String bResponse = bProxy.getData("Request from ALogicBean");
+        return "AService: processRequest çalıştırıldı -> " + request;
+    }
 
-        String response = "A Response (including B's response): " + bResponse;
-        System.out.println("[ALogicBean] Yanıt oluşturuldu: " + response);
-        return response;
+    @EventListener
+    public void handleARequest(AServiceEvent event) {
+        System.out.println("[ALogicBean] A'dan gelen istek işleniyor: " + event.getMethodName());
+
+        try {
+            Method method = this.getClass().getMethod(event.getMethodName(), String.class);
+            Object result = method.invoke(this, event.getParams());
+            System.out.println("Method executed successfully, result: " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

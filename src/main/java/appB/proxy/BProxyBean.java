@@ -1,27 +1,20 @@
 package appB.proxy;
 
-import appB.idl.BService;
-import appB.idl.BServiceHelper;
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
+import appB.event.BServiceEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BProxyBean {
-    private BService service;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public BProxyBean(ORB orb) {
-        try {
-            System.out.println("[BProxyBean] Naming Service'e bağlanılıyor...");
-            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-            NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-            service = BServiceHelper.narrow(ncRef.resolve_str("BService"));
-            System.out.println("[BProxyBean] BService referansı başarıyla alındı.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Autowired
+    public BProxyBean(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
     }
 
-    public String getData(String request) {
-        System.out.println("[BProxyBean] getData çağrıldı. İstek: " + request);
-        return service.getData(request);
+    public void callMethod(String methodName, Object... params) {
+        eventPublisher.publishEvent(new BServiceEvent(this, methodName, params));
     }
 }

@@ -1,3 +1,4 @@
+/*
 package appA.server;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
@@ -48,4 +49,4 @@ public class AServer {
             e.printStackTrace();
         }
     }
-}
+}*/

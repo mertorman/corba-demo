@@ -1,31 +1,21 @@
 package appA.proxybean;
 
-import appA.idl.AService;
-import appA.idl.AServiceHelper;
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
+import appA.event.AServiceEvent;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
+
+@Component
 public class AProxyBean {
-    private AService service;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public AProxyBean(ORB orb) {
-        try {
-            System.out.println("[AProxyBean] Naming Service'e bağlanılıyor...");
-            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-            NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-            service = AServiceHelper.narrow(ncRef.resolve_str("AService"));
-            System.out.println("[AProxyBean] AService referansı başarıyla alındı.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Autowired
+    public AProxyBean(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
     }
 
-    public AService getServerReferance() {
-        return service;
-    }
-
-    public String processRequest(String request) {
-        System.out.println("[AProxyBean] processRequest çağrıldı. İstek: " + request);
-        return service.processRequest(request);
+    public void callMethod(String methodName, Object... params) {
+        eventPublisher.publishEvent(new AServiceEvent(this, methodName, params));
     }
 }
