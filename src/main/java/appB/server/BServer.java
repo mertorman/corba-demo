@@ -4,7 +4,6 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 
 import appB.logic.BLogicBean;
-import appB.proxy.BProxyBean;
 
 import org.omg.CosNaming.*;
 
@@ -20,9 +19,6 @@ public class BServer {
 
             System.out.println("[BServer] BLogicBean oluşturuluyor...");
             BLogicBean service = new BLogicBean();
-
-            System.out.println("[BServer] BProxyBean oluşturuluyor...");
-            BProxyBean bProxy = new BProxyBean(orb); // Kendi LogicBean'ini ORB üzerinden al
 
             System.out.println("[BServer] BService için referans oluşturuluyor...");
             org.omg.CORBA.Object ref = rootPoa.servant_to_reference(service);

@@ -19,7 +19,7 @@ public class AServer {
             System.out.println("[AServer] POA Manager aktive edildi.");
 
             System.out.println("[AServer] BProxyBean oluşturuluyor...");
-            BProxyBean bProxy = new BProxyBean(orb); // B'yi ORB üzerinden çözümle
+            BProxyBean bProxy = new BProxyBean(orb);
 
             System.out.println("[AServer] ALogicBean oluşturuluyor...");
             ALogicBean service = new ALogicBean(bProxy);
