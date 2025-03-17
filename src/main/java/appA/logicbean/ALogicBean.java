@@ -1,6 +1,7 @@
 package appA.logicbean;
 
 import appA.idl.AServicePOA;
+import appB.idl.BService;
 import appB.proxy.BProxyBean;
 
 public class ALogicBean extends AServicePOA {
@@ -15,8 +16,10 @@ public class ALogicBean extends AServicePOA {
     public String processRequest(String request) {
         System.out.println("[ALogicBean] processRequest çağrıldı. Gelen istek: " + request);
 
+        System.out.println("[ALogicBean] BServer referansı alınıyor...");
+        BService serverRefB = bProxy.getServerReferance();
         System.out.println("[ALogicBean] B'ye istek gönderiliyor...");
-        String bResponse = bProxy.getData("Request from ALogicBean");
+        String bResponse = serverRefB.getData("Request from ALogicBean");
 
         String response = "A Response (including B's response): " + bResponse;
         System.out.println("[ALogicBean] Yanıt oluşturuldu: " + response);

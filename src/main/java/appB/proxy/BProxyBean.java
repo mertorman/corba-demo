@@ -20,8 +20,8 @@ public class BProxyBean {
         }
     }
 
-    public String getData(String request) {
-        System.out.println("[BProxyBean] getData çağrıldı. İstek: " + request);
-        return service.getData(request);
-    }
+    public BService getServerReferance() {
+        return service;
+     }
+
 }
