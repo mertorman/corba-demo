@@ -1,4 +1,6 @@
 package appA;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -6,6 +8,7 @@ import appA.proxybean.AProxyBean;
 
 @Component
 public class AClient implements CommandLineRunner {
+    private static final Logger logger = LoggerFactory.getLogger(AClient.class);
     private final AProxyBean aProxyBean;
 
     public AClient(AProxyBean aProxyBean) {
@@ -14,8 +17,11 @@ public class AClient implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println("[AClient] AService.processRequest çağrılıyor...");
-        
-        aProxyBean.callMethod("processRequest", "Merhaba, B!");
+        logger.info("[AClient] AService.processRequest çağrılıyor...");
+
+        String message = "Hello from AClient!";
+        logger.info("[AClient] Gönderilen mesaj: {}", message);
+
+        aProxyBean.callMethod("processRequest", message);
     }
 }

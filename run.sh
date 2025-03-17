@@ -11,10 +11,10 @@ mkdir -p bin
 echo "🛠️  Derleme yapılıyor..."
 javac -d bin $(find src/main/java -name "*.java")
 
-# 3️⃣ ORBD servisini başlat (CORBA için gerekli)
+# 3️⃣ ORBD servisini başlat (CORBA)
 echo "🔵 ORBD başlatılıyor..."
 orbd -ORBInitialPort 900 &  
-sleep 2  # ORBD’nin başlaması için zaman tanı
+sleep 2 
 
 # 4️⃣ BServer'ı başlat
 echo "🔵 BServer başlatılıyor..."
