@@ -23,9 +23,4 @@ public class AProxyBean {
     public AService getServerReferance() {
         return service;
     }
-
-    public String processRequest(String request) {
-        System.out.println("[AProxyBean] processRequest çağrıldı. İstek: " + request);
-        return service.processRequest(request);
-    }
 }
