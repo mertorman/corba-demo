@@ -19,7 +19,7 @@ public class BLogicBean implements BServiceOperations {
     }
 
     @EventListener
-    public void handleBRequest(BServiceEvent event) {
+    public void handleBRequest(BServiceEvent<Object> event) {
         logger.info("[BLogicBean] Event alındı: {}", event.getMethodName());
 
         try {
@@ -27,7 +27,9 @@ public class BLogicBean implements BServiceOperations {
             logger.info("[BLogicBean] Metot çalıştırılıyor: {}", method.getName());
 
             Object result = method.invoke(this, event.getParams());
-
+            
+            // Sonucu CompletableFuture üzerinden geri döndür
+            event.getResponseFuture().complete(result);
             logger.info("[BLogicBean] Metot başarıyla çalıştırıldı, sonuç: {}", result);
         } catch (Exception e) {
             logger.error("[BLogicBean] Hata oluştu: {}", e.getMessage(), e);

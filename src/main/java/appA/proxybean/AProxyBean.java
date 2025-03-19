@@ -3,6 +3,7 @@ package appA.proxybean;
 import appA.event.AServiceEvent;
 
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +21,15 @@ public class AProxyBean {
         this.eventPublisher = eventPublisher;
     }
 
-    public void callMethod(String methodName, Object... params) {
-        logger.info("[AProxyBean] Event tetikleniyor: {}", methodName);
+    public CompletableFuture<Object> callMethod(String methodName, Object... params) {
+    logger.info("[AProxyBean] Event tetikleniyor: {}", methodName);
 
-        eventPublisher.publishEvent(new AServiceEvent(this, methodName, params));
+    AServiceEvent<Object> event = new AServiceEvent<>(this, methodName, params);
+    eventPublisher.publishEvent(event);
 
-        logger.info("[AProxyBean] Event başarıyla yayınlandı: {}", methodName);
-    }
+    logger.info("[AProxyBean] Event başarıyla yayınlandı: {}", methodName);
+
+    return event.getResponseFuture();
+}
+
 }

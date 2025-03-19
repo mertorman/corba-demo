@@ -1,4 +1,6 @@
 package appA;
+import java.util.concurrent.CompletableFuture;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +24,9 @@ public class AClient implements CommandLineRunner {
         String message = "Hello from AClient!";
         logger.info("[AClient] Gönderilen mesaj: {}", message);
 
-        aProxyBean.callMethod("processRequest", message);
+        CompletableFuture<Object> futureResult = aProxyBean.callMethod("processRequest", message);
+        futureResult.thenAccept(result -> {
+            logger.info("processRequest sonucu: " + result);
+        });
     }
 }
