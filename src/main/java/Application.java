@@ -1,9 +1,16 @@
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@SpringBootApplication
+import appA.AClient;
+
 public class Application {
+    //buradan run edip çalıştırabilirsiniz.
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        // AppConfig sınıfı ile Spring Context başlatılır
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        // AClient bean'ini alıp çalıştırıyoruz
+        AClient aClient = context.getBean(AClient.class);
+        aClient.run(args); // Burada AClient içindeki kodlar çalışacak
     }
 }
